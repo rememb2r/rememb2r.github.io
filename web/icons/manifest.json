@@ -1,5 +1,6 @@
 {
- "name": "App",
+ "name": "유레카",
+  "short_name": "유레카",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
