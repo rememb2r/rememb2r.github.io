@@ -3,9 +3,10 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/AssetManifest.json": "1b12ac4e48c2b207b86327dca041a6f6",
+  "assets/AssetManifest.json": "dee1d008d22ffcba96f621b7604634b6",
 "assets/assets/images/1.jpg": "cdf7c7a5562ba1d8b47b5ec1a5638497",
 "assets/assets/images/1.png": "35630e63bbb0108a78da631f1a7499b1",
+"assets/assets/images/apple.png": "ad72835b6ce652c5ecfbc541d751c7b2",
 "assets/assets/images/bookmark_filled.svg": "4676ca55e2c760eb0e7c41455c35b431",
 "assets/assets/images/bookmark_outline.svg": "0e8066cc8c3b4b9fb65ed7edec0881b0",
 "assets/assets/images/camera_icon.svg": "64b9ff3a3a9bec0133ab1cfd164bb886",
@@ -16,7 +17,7 @@ const RESOURCES = {
 "assets/assets/images/feed_icon_logotext.png": "e3c2c1d96ed7682cc1253a651dfaf084",
 "assets/assets/images/feed_icon_logotext.svg": "88d3b84c1a0cdae057f86f9abaacca19",
 "assets/assets/images/feed_notification.png": "5361538d5eb9f8ddc6e7b98769769890",
-"assets/assets/images/google.svg": "d9f6f59b534d74d99a791e69e7686e03",
+"assets/assets/images/google.svg": "6907a65536cc16e4037a753dbd940411",
 "assets/assets/images/hotness_empty.png": "e7a0d960607890e4759c5c4a08af48b3",
 "assets/assets/images/hotness_full.png": "352f3ff2b3ac6f168ec065acc01b1a32",
 "assets/assets/images/icon_blackX.svg": "de951c7b2cd40f8d22480a378fa68c91",
@@ -30,6 +31,8 @@ const RESOURCES = {
 "assets/assets/images/icon_number7.svg": "d2619c4d1faa1dacf7b23d7b6f576087",
 "assets/assets/images/icon_number8.svg": "a286ed9ef1b0fb385ddd4cead383fc58",
 "assets/assets/images/icon_number9.svg": "d11c3ef1a8c92e50878935cf8ba990b6",
+"assets/assets/images/kakao.png": "86dcbca84a8225c6ae471b17acf7233a",
+"assets/assets/images/kakaolink_btn_small.png": "92dbc9a7023befe38080df1fbbfe0828",
 "assets/assets/images/like_filled.svg": "97a4dfd44897873058686554021a12c0",
 "assets/assets/images/like_outline.svg": "64030ee7bc7060f81a6ae0c872c89ab0",
 "assets/assets/images/login_google.svg": "ef42a65348653e75cce27d479406b870",
@@ -54,10 +57,15 @@ const RESOURCES = {
 "assets/assets/images/recipe_video_upload.svg": "790d0f1cfdaba9de2c454ac4304b4f92",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
-"assets/NOTICES": "6b96f0e1888ab9752167d041af052b03",
+"assets/NOTICES": "d11a877786fc97c4a1bc42397332a1dd",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/shaders/ink_sparkle.frag": "a7001c32c2bc20a3675879cf5d4f24e5",
+"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
+"canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
+"canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
+"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
 "favicon.png": "e5e9fd578df5397ccdc650248cf5ce84",
+"flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
 "icons/android-icon-144x144.png": "33d009384ace9fd8ef7c35675d0ef6a4",
 "icons/android-icon-192x192.png": "a1c3495dba4912ba414870d6fb630ec3",
 "icons/android-icon-36x36.png": "d03e9b5ea6adf8e9da2ed8ca783e27ae",
@@ -89,11 +97,11 @@ const RESOURCES = {
 "icons/ms-icon-150x150.png": "7c08130e63cc0f1cb4a6e1590f042e84",
 "icons/ms-icon-310x310.png": "4feaa7c4ace77f601b4298dc4c61913c",
 "icons/ms-icon-70x70.png": "b8a4cb32d0e07700bcb09e5312d32a8e",
-"index.html": "909612afa31c4c9081806f4f16b062c7",
-"/": "909612afa31c4c9081806f4f16b062c7",
-"main.dart.js": "01a846d9383cf59cc66ad00aa9cc063c",
+"index.html": "f5374cb9c1335625de88de568fe8c53d",
+"/": "f5374cb9c1335625de88de568fe8c53d",
+"main.dart.js": "e497d56c325c3c1b7cedfb9fb0585ef9",
 "manifest.json": "fc5a18716876fc4eed0f19a8ed6cb91b",
-"version.json": "18590eef30f8bd4df96a7319263807b0"
+"version.json": "46248323cc7049860bf8208e4b2f18d0"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -199,9 +207,11 @@ self.addEventListener("fetch", (event) => {
     .then((cache) =>  {
       return cache.match(event.request).then((response) => {
         // Either respond with the cached resource, or perform a fetch and
-        // lazily populate the cache.
+        // lazily populate the cache only if the resource was successfully fetched.
         return response || fetch(event.request).then((response) => {
-          cache.put(event.request, response.clone());
+          if (response && Boolean(response.ok)) {
+            cache.put(event.request, response.clone());
+          }
           return response;
         });
       })
